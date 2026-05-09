@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S shop</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="logo.jpg" alt="شعار S shop">
+                <span>S shop</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#products">المنتجات</a></li>
+                <li><a href="#about">حول</a></li>
+                <li><a href="#contact">اتصل بنا</a></li>
+            </ul>
+            <button class="cart-btn">السلة (0)</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>مرحباً بكم في S shop</h1>
+            <p>اكتشف منتجاتنا المميزة</p>
+            <button class="shop-now" onclick="scrollToProducts()">تسوق الآن</button>
+        </section>
+
+        <section id="products" class="featured-products">
+            <h2>المنتجات المميزة</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="1059295-full_product.jpg" alt="المنتج">
+                    <h3>المنتج</h3>
+                    <p>6000 دج</p>
+                    <button class="add-to-cart">شراء</button>
+                </div>
+                <div class="product-card">
+                    <img src="s-l1200.jpg" alt="المنتج">
+                    <h3>المنتج</h3>
+                    <p>6000 دج</p>
+                    <button class="add-to-cart">شراء</button>
+                </div>
+                <div class="product-card">
+                    <img src="p2.jpg" alt="المنتج">
+                    <h3>المنتج</h3>
+                    <p>2900 دج</p>
+                    <button class="add-to-cart">شراء</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            <a>ين عيسى منعم</a> </br>
+
+          
+            
+        </p>
+    </footer>
+
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>تفاصيل الطلب</h2>
+            <p class="welcome-note">
+                سنتصل بك فور رؤية طلبك! مرحباً بك!
+                <br>
+                <span class="phone-notice" style="color: red;">
+                    اذا لم يتم تلقي الرد خلال 24 ساعة يمكنك الاتصال بنا على الرقم: 
+                    <span id="phoneNumber">0782253934</span>
+                    <div style="display: inline-block; position: relative;">
+                        <button onclick="copyPhoneNumber()" style="padding: 4px 8px; margin-right: 5px; cursor: pointer; background: none; border: none; color: #808080;">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <span id="copyMessage" style="margin-right: 5px; background: #4CAF50; color: white; padding: 1px 4px; border-radius: 0; font-size: 10px; display: none;">
+                        تم
+                    </span>
+                </span>
+            </p>
+            <form class="order-form" action="https://formsubmit.co/tox1c0contact@gmail.com" method="POST">
+
+                <input type="hidden" name="_subject" value="طلب جديد من S shop!">
+<input type="hidden" name="form-name" value="order">
+                <input type="hidden" name="Product" id="productName">
+                <div class="form-group">
+                    <input type="text" name="Name" placeholder="اسمك الكامل" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" name="Phone" placeholder="رقم الهاتف" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="Address" placeholder="عنوان التوصيل" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="Quantity" placeholder="الكمية" min="1" required>
+                </div>
+                <button type="submit" class="submit-btn">تأكيد الطلب</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function attachBuyButtonListeners() {
+            const buyButtons = document.querySelectorAll('.add-to-cart');
+            const modal = document.getElementById('contactModal');
+            const closeBtn = document.querySelector('.close-btn');
+            const productNameInput = document.getElementById('productName');
+
+            buyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const productCard = button.closest('.product-card');
+                    const productName = productCard.querySelector('h3').textContent;
+                    productNameInput.value = productName;
+                    modal.style.display = 'flex';
+                });
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        function scrollToProducts() {
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyPhoneNumber() {
+            const phoneNumber = document.getElementById('phoneNumber').textContent;
+            const copyMessage = document.getElementById('copyMessage');
+            
+            navigator.clipboard.writeText(phoneNumber).then(() => {
+                copyMessage.style.display = 'block';
+                setTimeout(() => {
+                    copyMessage.style.display = 'none';
+                }, 2000); // Hide after 2 seconds
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+
+        // Call attachBuyButtonListeners when the page loads
+        document.addEventListener('DOMContentLoaded', attachBuyButtonListeners);
+    </script>
+</body>
+</html> 
